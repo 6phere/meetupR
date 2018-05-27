@@ -1,0 +1,6 @@
+*/.cache*
+*/.keras*
+*/.rstudio*
+*/.local*
+*/.virtualenvs*
+*.bash_history

@@ -1,0 +1,8 @@
+jenkins/home/
+.cache/
+.keras/
+.local/
+.rstudio/
+.virtualenvs/
+kitematic/
+.bash_history

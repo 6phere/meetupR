@@ -1,0 +1,36 @@
+version: '3.5'
+services:
+
+  rstudio:
+    image: 6phr_rstudio:1.0.0
+    build: ./rstudio
+    container_name: 6phr_rstudio
+    environment:
+      ROOT: "TRUE"
+    ports:
+      - 8787:8787
+      - 8000:8000
+    volumes:
+      - ./rstudio/home:/home/rstudio:rw
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://localhost:8787"]
+      interval: 10s
+      timeout: 120s
+      retries: 5
+
+  jenkins:
+    image: 6phr_jenkins:1.0.0
+    build: ./jenkins
+    container_name: 6phr_jenkins
+    privileged: true
+    ports:
+        - "8080:8080"
+    volumes:
+        - ./jenkins/home:/var/jenkins_home
+        - /var/lib/docker:/var/lib/docker
+        - /var/run/docker.sock:/var/run/docker.sock
+    healthcheck:
+      test: ["CMD", "curl", "-k", "-f", "https://localhost:8080/blue"]
+      interval: 10s
+      timeout: 120s
+      retries: 5

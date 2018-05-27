@@ -1,0 +1,161 @@
+<html>
+
+<head>
+	<title>Sixphere</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+	<link rel="icon" type="image/png" href="http://sixphere.com/wp-content/uploads/2017/11/favicon.png">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+	<style>
+		body {
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-image: url(/static/bg-header.jpg);
+		}
+
+		header {
+			height: 100%;
+			width: 100%;
+			color: #ffffff;
+			display: table;
+		}
+
+		.content {
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+
+		.logo-container {
+			width: 100%;
+		}
+
+		.logo {
+			opacity: 0.7;
+			max-height:400px;
+			padding: 20px;
+		}
+
+		h1, h2, h3 {
+			color: #ffffff;
+			font-family: 'Roboto', sans-serif;
+			font-size: 28px;
+			padding: 20px 20px 0px 20px;
+		}
+
+		h1 span
+		{
+			color: #c5e0b4;
+			font-weight: bold;
+		}
+
+		h2 {
+			margin: 0px;
+			padding: 10px 10px 20px 10px;
+			font-size: 20px;
+		}
+
+		h3 {
+			font-size: 24px;
+		}
+
+		a, a:hover, a:visited, a:focus
+		{
+			text-decoration: none;
+			color: #c5e0b4;
+		}
+
+	</style>
+
+	<header id="gradient">
+		<div class="content">
+			<div class="logo-container">
+				<img class="logo img-fluid" src="/static/logo.png"/>
+			</div>
+			<div class="info">
+				<h1>Welcome to <span>model.name</span> API Version model.version</h1>
+				<h2><a href="/__swagger__/">Swagger Documentation</a></h2>
+				<h2>
+					<a href="mailto:codelovers@sixphere.com">Contact Us</a> |
+					<a href="http://sixphere.com/wp-content/uploads/2018/04/Sixphere-Portfolio.pdf" target="_blank">Our Portfolio</a> |
+					<a href="http://sixphere.com/wp-content/uploads/2018/04/Polaris-Museum-Briefing.pdf" target="_blank">Know Polaris</a> |
+					<a href="https://twitter.com/6phere" target="_blank">Follow Us</a>
+				</h2>
+				<h3>Sixphere 2018</h3>
+				<p>#codelovers</p>
+			</div>
+		</div>
+	</header>
+
+	<script>
+		var colors = new Array(
+		  [255,128,0],
+		  [53,168,224],
+		  [45,171,102],
+		  [0,159,152],
+		  [221,219,1],
+		  [242,145,0]);
+
+		var step = 0;
+		//color table indices for:
+		// current color left
+		// next color left
+		// current color right
+		// next color right
+		var colorIndices = [0,1,2,3];
+
+		//transition speed
+		var gradientSpeed = 0.002;
+
+		function updateGradient()
+		{
+
+			if ( $===undefined ) return;
+
+			var c0_0 = colors[colorIndices[0]];
+			var c0_1 = colors[colorIndices[1]];
+			var c1_0 = colors[colorIndices[2]];
+			var c1_1 = colors[colorIndices[3]];
+
+			var istep = 1 - step;
+			var r1 = Math.round(istep * c0_0[0] + step * c0_1[0]);
+			var g1 = Math.round(istep * c0_0[1] + step * c0_1[1]);
+			var b1 = Math.round(istep * c0_0[2] + step * c0_1[2]);
+			var color1 = "rgb("+r1+","+g1+","+b1+",0.5)";
+
+			var r2 = Math.round(istep * c1_0[0] + step * c1_1[0]);
+			var g2 = Math.round(istep * c1_0[1] + step * c1_1[1]);
+			var b2 = Math.round(istep * c1_0[2] + step * c1_1[2]);
+			var color2 = "rgb("+r2+","+g2+","+b2+",0.5)";
+
+			$('#gradient').css({
+				background: "-webkit-gradient(linear, left top, right top, from("+color1+"), to("+color2+"))"}).css({
+				background: "-moz-linear-gradient(left, "+color1+" 100%, "+color2+" 100%)"});
+
+			  step += gradientSpeed;
+			  if ( step >= 1 )
+			  {
+				step %= 1;
+				colorIndices[0] = colorIndices[1];
+				colorIndices[2] = colorIndices[3];
+
+				//pick two new target color indices
+				//do not pick the same as the current one
+				colorIndices[1] = ( colorIndices[1] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+				colorIndices[3] = ( colorIndices[3] + Math.floor( 1 + Math.random() * (colors.length - 1))) % colors.length;
+
+			  }
+		}
+
+		setInterval(updateGradient,10);
+	</script>
+
+</body>
+
+</html>
