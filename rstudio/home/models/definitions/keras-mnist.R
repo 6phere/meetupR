@@ -25,6 +25,7 @@ cat('\n=== Categorizing classes')
 y_train <- to_categorical(y_train, 10)
 y_test <- to_categorical(y_test, 10)
 
+use_session_with_seed(1234)
 cat('\n=== Defining model')
 model <- keras_model_sequential() 
 model %>% 
@@ -44,7 +45,7 @@ model %>% compile(
 cat('\n=== Training model')
 history <- model %>% fit(
   x_train, y_train, 
-  epochs = 50, batch_size = 128, 
+  epochs = 5, batch_size = 128, 
   validation_split = 0.2
 )
 

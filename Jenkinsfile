@@ -17,9 +17,9 @@ pipeline {
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${RC_NAME}.${BUILD_NUMBER}"
         }
         echo "Building the image ${IMAGE_NAME} ... "
-        sh "docker build -t ${IMAGE_NAME} -f rstudio/home/apis/Dockerfile rstudio"
+        sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
         echo "Starting the container ${CONTAINER_NAME} ..."
-        sh "docker run -it -d --name ${CONTAINER_NAME} -p 8001:8000 ${IMAGE_NAME}"
+        sh "docker run -it -d --name ${CONTAINER_NAME} -p 8000 ${IMAGE_NAME}"
         echo "Release candidate ${RC_NAME} delivery done!"
       }
     }
@@ -33,9 +33,9 @@ pipeline {
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${MODEL_VERSION}"
         }
         echo "Building the image ${IMAGE_NAME} ... "
-        sh "docker build -t ${IMAGE_NAME} -f rstudio/home/apis/Dockerfile rstudio"
+        sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
         echo "Starting the container ${CONTAINER_NAME} ..."
-        sh "docker run -it -d --name ${CONTAINER_NAME} -p 8002:8000 ${IMAGE_NAME}"
+        sh "docker run -it -d --name ${CONTAINER_NAME} -p 8000 ${IMAGE_NAME}"
         echo "Version ${MODEL_VERSION} delivery done!"
       }
     }

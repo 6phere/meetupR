@@ -2,7 +2,7 @@ library(plumber)
 library(readr)
 library(keras)
 
-model.name <- 'keras-mnist-TEST'
+model.name <- 'keras-mnist'
 model.version <- '1.0'
 
 #* @apiTitle keras-mnist-TEST

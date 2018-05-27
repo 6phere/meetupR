@@ -1,6 +1,6 @@
 library(keras)
 
-model.name <- 'keras-mnist-TEST'
+model.name <- 'keras-mnist'
 model.version <- '1.0'
 
 cat('\n=== Testing model building')
@@ -40,24 +40,27 @@ print(results %>%
 
 cat('\n=== Everything is OK')
 
-library("stringr")
-filter(as.data.frame(results),str_detect("Correct", "no"))
-
 summary(results)
 
-jander <- as.data.frame(results)
+df <- as.data.frame(results)
+df[df$Correct == 'no',]
 
-jander[jander$Correct == 'no',]
-
-#583 708 116
-mnist$test$y[116]
-y_pred[116]
-im <- mnist$test$x[116,,]
+#583
+#152 242 248 260 321 341 382 446
+check <- '152'
+mnist$test$y[check]
+y_pred[check]
+im <- mnist$test$x[check,,]
 im <- t(apply(im, 2, rev))
 image(1:28, 1:28, im, col=gray((0:255)/255))
 
+# Export the image
+png::writePNG(mnist$test$x[check,,]/255,target = paste0(check,'.png'))
 
-png::writePNG(mnist$test$x[116,,]/255,target = '116.png')
-img <- png::readPNG('116.png', native = FALSE, info = FALSE)
-dim(im)
+# Test the exported image
+img <- image_load(paste0(check,'.png'), grayscale = TRUE, target_size = c(28,28))
+img <- image_to_array(img)
+img <- array_reshape(img, c(28,28))
+img <- t(apply(img, 2, rev))
+image(1:28, 1:28, img, col=gray((0:255)/255))
 

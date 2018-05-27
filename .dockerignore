@@ -1,6 +1,9 @@
-*/.cache*
-*/.keras*
-*/.rstudio*
-*/.local*
-*/.virtualenvs*
+.git/*
+jenkins/*
+plumber/*
+*/home/.cache*
+*/home/.keras*
+*/home/.rstudio*
+*/home/.local*
+*/home/.virtualenvs*
 *.bash_history
