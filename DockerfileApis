@@ -1,0 +1,12 @@
+FROM 6phr_plumber:1.0.0
+MAINTAINER Sixphere <codelovers@sixphere.com>
+
+ARG api_path=/usr/local/lib/R/site-library/plumber/examples/04-mean-sum/plumber.R
+ARG models_folder=rstudio/home/models/compiled
+ARG resources_folder=rstudio/home/resources
+
+COPY $api_path /app/model.R
+COPY $models_folder /models/compiled
+COPY $resources_folder /resources
+
+CMD ["/app/model.R"]
