@@ -4,7 +4,6 @@ pipeline {
     stage('Build') {
       steps {
         sh 'printenv'
-        slackSend(message: "${MODEL_NAME} deploying ...", channel: 'meetupr')
       }
     }
     stage('Delivery for release candidate branches') {
@@ -20,7 +19,7 @@ pipeline {
           IMAGE_NAME = "6phr_${MODEL_NAME}:${RC_NAME}.${BUILD_NUMBER}"
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${RC_NAME}.${BUILD_NUMBER}"
         }
-
+        slackSend(message: "Deploying an RC for model ${MODEL_NAME}_${MODEL_VERSION} ...", channel: 'meetupr')
         slackSend(message: "Building the image ${IMAGE_NAME} ... ", channel: 'meetupr')
         sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
         slackSend(message: "Starting the container ${CONTAINER_NAME} ...", channel: 'meetupr')
@@ -37,7 +36,7 @@ pipeline {
           IMAGE_NAME = "6phr_${MODEL_NAME}:${MODEL_VERSION}.${BUILD_NUMBER}"
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${MODEL_VERSION}"
         }
-
+        slackSend(message: "Deploying the model ${MODEL_NAME}_${MODEL_VERSION} ...", channel: 'meetupr')
         slackSend(message: "Building the image ${IMAGE_NAME} ... ", channel: 'meetupr')
         sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
         slackSend(message: "Starting the container ${CONTAINER_NAME} ...", channel: 'meetupr')
