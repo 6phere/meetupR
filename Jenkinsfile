@@ -4,7 +4,7 @@ pipeline {
     stage('Build') {
       steps {
         sh 'printenv'
-        slackSend(message: "${MODEL_NAME} building ...", channel: 'meetupr')
+        slackSend(message: "${MODEL_NAME} deploying ...", channel: 'meetupr')
       }
     }
     stage('Delivery for release candidate branches') {
@@ -21,11 +21,11 @@ pipeline {
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${RC_NAME}.${BUILD_NUMBER}"
         }
 
-        echo "Building the image ${IMAGE_NAME} ... "
+        slackSend(message: "Building the image ${IMAGE_NAME} ... ", channel: 'meetupr')
         sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
-        echo "Starting the container ${CONTAINER_NAME} ..."
+        slackSend(message: "Starting the container ${CONTAINER_NAME} ...", channel: 'meetupr')
         sh "docker run -it -d --name ${CONTAINER_NAME} -p 8000 ${IMAGE_NAME}"
-        echo "Release candidate ${RC_NAME} delivery done!"
+        slackSend(message: "Release candidate ${RC_NAME} delivery done!", channel: 'meetupr')
       }
     }
     stage('Deploy master branch') {
@@ -38,11 +38,11 @@ pipeline {
           CONTAINER_NAME = "6phr_${MODEL_NAME}_${MODEL_VERSION}"
         }
 
-        echo "Building the image ${IMAGE_NAME} ... "
+        slackSend(message: "Building the image ${IMAGE_NAME} ... ", channel: 'meetupr')
         sh "docker build -t ${IMAGE_NAME} --build-arg api_path=rstudio/home/apis/${MODEL_NAME}-api.R  -f DockerfileApis ."
-        echo "Starting the container ${CONTAINER_NAME} ..."
+        slackSend(message: "Starting the container ${CONTAINER_NAME} ...", channel: 'meetupr')
         sh "docker run -it -d --name ${CONTAINER_NAME} -p 8000 ${IMAGE_NAME}"
-        echo "Version ${MODEL_VERSION} delivery done!"
+        slackSend(message: "Version ${MODEL_VERSION} delivery done!", channel: 'meetupr')
       }
     }
   }
