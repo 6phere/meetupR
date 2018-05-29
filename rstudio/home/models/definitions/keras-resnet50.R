@@ -5,7 +5,7 @@ library(keras)
 model <- application_resnet50(weights = 'imagenet')
 
 # load the image
-img_path <- "snail.jpg"
+img_path <- "images/phone.jpg"
 img <- image_load(img_path, target_size = c(224,224))
 x <- image_to_array(img)
 
