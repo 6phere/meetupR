@@ -47,7 +47,7 @@ df[df$Correct == 'no',]
 
 #583
 #152 242 248 260 321 341 382 446
-check <- '152'
+check <- 152
 mnist$test$y[check]
 y_pred[check]
 im <- mnist$test$x[check,,]
